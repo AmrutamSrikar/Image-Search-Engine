@@ -67,7 +67,6 @@ const SearchPhotos = () => {
         }).catch((error)=>alert(error));
         e.preventDefault();
       };
-    console.log(search);
 
     
       
