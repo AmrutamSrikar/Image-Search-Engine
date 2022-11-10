@@ -49,7 +49,6 @@ const SearchPhotos = () => {
               })
               .then(toJson)
               .then((json) => {
-              console.log(json.data.results);
               setPics([...pics,...json.data.results]);
               }).catch((error)=>alert(error));
         }
@@ -63,11 +62,9 @@ const SearchPhotos = () => {
         .photos(search,1,30,2)
         .then(toJson)
         .then((json) => {
-        console.log(json);
         setPics(json.results);
         navigate("?search="+search);
         }).catch((error)=>alert(error));
-        console.log("Submitting the Form");
         e.preventDefault();
       };
     console.log(search);
