@@ -13,6 +13,7 @@ const SearchPhotos = () => {
   // used hooks to store and manipulate the the data and histroy for routing(url changes)
     const [search, setQuery] = useState("");
     const [pics, setPics] = useState([]);
+    const [error,setError] = useState(false);
     let navigate = useNavigate();
     const unsplash = new Unsplash({
         accessKey: API_KEY,
@@ -35,7 +36,7 @@ const SearchPhotos = () => {
             }).then((json => {
                 setPics([...pics,...json.data]);
                 })).catch(error => {
-                    console.log(error);
+                    setError(error);
                 });
         } 
         // on the change in scroll effect will get the data from the next page of unsplash photos.
@@ -50,7 +51,7 @@ const SearchPhotos = () => {
               .then(toJson)
               .then((json) => {
               setPics([...pics,...json.data.results]);
-              }).catch((error)=>alert(error));
+              }).catch((error)=>setError(error));
         }
      }
        
@@ -64,7 +65,7 @@ const SearchPhotos = () => {
         .then((json) => {
         setPics(json.results);
         navigate("?search="+search);
-        }).catch((error)=>alert(error));
+        }).catch((error)=>setError(error));
         e.preventDefault();
       };
 
@@ -94,7 +95,7 @@ const SearchPhotos = () => {
           </div>
           <div>
             {/* used infinite scroll libirary */}
-        {pics.length === 0 ? <p>No results Found </p> :
+         {(pics.length === 0 || error) ? (error ? <p>{error}</p>:<p>No results Found </p>) :
           <InfiniteScroll dataLength={pics.length} loader={<h4>Loading...</h4>} 
             next={initialLoadImages} hasMore={true}>
                 <div className="card-list">
